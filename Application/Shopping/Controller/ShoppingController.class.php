@@ -11,7 +11,7 @@ use Think\Controller;
 class ShoppingController extends Controller {
 
     public function shopping_action() {
-        echo "<h1>hello</h1>>";
+        echo "<h1>Shopping</h1>";
     }
 
 }

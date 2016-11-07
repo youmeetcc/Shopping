@@ -10,6 +10,10 @@ use Think\Controller;
 
 class AdminController extends Controller {
 
+    public function admin_action() {
+        echo "<h1>Admin</h1>";
+    }
+
     /**
      * 获取管理员信息，需要通过POST请求形式获取
      *
