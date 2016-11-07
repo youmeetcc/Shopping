@@ -4,10 +4,9 @@
  * Github: https://www.github.com/Jiar/
  */
 
-namespace Shopping\Controller;
+namespace Admin\Controller;
 
 use Think\Controller;
-
 
 class AdminController extends Controller {
 

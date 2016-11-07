@@ -4,7 +4,7 @@
  * Github: https://www.github.com/Jiar/
  */
 
-namespace Shopping\Model;
+namespace Admin\Model;
 
 use Think\Model;
 
