@@ -21,9 +21,9 @@ define('APP_DEBUG',True);
 // 定义应用目录
 define('APP_PATH','./Application/');
 
-$_GET['m'] = 'Shopping';
-$_GET['c'] = 'Shopping';
-$_GET['a'] = 'shopping';
+$_GET['m'] = 'Admin';
+$_GET['c'] = 'Admin';
+$_GET['a'] = 'admin';
 
 // 引入ThinkPHP入口文件
 require './ThinkPHP/ThinkPHP.php';

@@ -84,86 +84,40 @@ class AdminController extends Controller {
     }
 
     /**
-     * 登录操作
-     */
-    public function signin_action() {
-        if(session('?adminId') && session('?adminToken')) {
-            $this->redirect('Admin/admin');
-        } else {
-            $account = I('post.account');
-            $password = sha1(I("post.password"));
-            if(filter_var($account, FILTER_VALIDATE_EMAIL)) {
-                // 邮箱登录
-                $data['email'] = $account;
-                $data['password'] = $password;
-                $result = D('Admin')->where($data)->select();
-                $result = $result[0];
-                if(count($result) == 0) {
-                    $this->error('该账户不存在');
-                    return;
-                }
-                if($result['is_examine'] == 0) {
-                    $this->error('该账户还在审核中，请耐心等待');
-                    return;
-                } else if($result['is_examine'] == 2) {
-                    $this->error('该账户审核被拒绝，您可以重新注册');
-                    return;
-                }
-                if($result['is_block'] == 1) {
-                    $this->error('该账户已被屏蔽');
-                    return;
-                }
-                $this->saveDataBySignin($result);
-            } else {
-                // 用户登录
-                $data['name'] = $account;
-                $data['password'] = $password;
-                $result = D('Admin')->where($data)->select();
-                $result = $result[0];
-                if(count($result) == 0) {
-                    $this->error('该账户不存在');
-                    return;
-                }
-                if($result['is_examine'] == 0) {
-                    $this->error('该账户还在审核中，请耐心等待');
-                    return;
-                } else if($result['is_examine'] == 2) {
-                    $this->error('该账户审核被拒绝，您可以重新注册');
-                    return;
-                }
-                if($result['is_block'] == 1) {
-                    $this->error('该账户已被屏蔽');
-                    return;
-                }
-                $this->saveDataBySignin($result);
-            }
-        }
-    }
-
-    /**
-     * 注册操作
+     * 管理员注册
+     *
+     * @param name       用户名
+     * @param email      电子邮箱
+     * @param password   登录密码
+     * @param repassword 重复密码
+     *
+     * @return {"success":0, "info":"info"}
+     * success为0表示获取失败，1表示获取成功；无论是否获取成功info表示内容
      */
     public function signup_action() {
         $name = I('post.name');
+        $email = I('post.email');
         $data['name'] = $name;
+        $data['email'] = $email;
         $data['password'] = I('post.password');
         $data['repassword'] = I('post.repassword');
-        $data['email'] = I('post.email');
         $data['token'] = sha1('TOKEN:' .$name .date('YmdHis'));
         $data['create_time'] = date('Y-m-d H:i:s');
         $data['last_modify_time'] = date('Y-m-d H:i:s');
         $data['last_login_time'] = date('Y-m-d H:i:s');
-        $id = $this->getExamineRefuseId($data['name'], $data['email']);
+        $id = $this->getExamineRefuseId($name, $email);
         if($id) {
-            $admin = D("Admin");
-            $admin->delete($id);
+            D("Admin")->delete($id);
         }
         $admin = D('Admin');
         if (!$admin->create($data)){
-            $this->error(structureErrorInfo($admin->getError()));
+            $backEntity['success'] = 0;
+            $backEntity['info'] = $admin->getError();
+            $this->ajaxReturn(json_encode($backEntity), 'JSON');
         } else {
-            $admin->add();
-            $this->redirect('Admin/login');
+            $backEntity['success'] = 1;
+            $backEntity['info'] = '注册成功';
+            $this->ajaxReturn(json_encode($backEntity), 'JSON');
         }
     }
 

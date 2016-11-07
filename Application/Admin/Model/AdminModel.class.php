@@ -4,7 +4,7 @@
  * Github: https://www.github.com/Jiar/
  */
 
-namespace Qwechat\Model;
+namespace Shopping\Model;
 
 use Think\Model;
 

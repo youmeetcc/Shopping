@@ -1,14 +1,14 @@
 <?php
+
 /**
- * Created by function.php.
- * User: nick
- * Date: 2016/7/14
- * Time: 14:52
- * drc: public function file
- * Copyright (c) 2016-2017 *********公司技术开发部
- * version:
+ * 判断一个PHP数组是关联数组还是数字数组
+ *
+ * @param $arr  传入变量
+ * @return bool 是否为关联数组
  */
- 
+function is_assoc($arr) {
+    return array_keys($arr) !== range(0, count($arr) - 1);
+}
 
 /**
  * 验证输入日期格式 model: false ,年-月-日   true: 月-日
