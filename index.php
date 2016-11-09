@@ -21,6 +21,9 @@ define('APP_DEBUG',True);
 // 定义应用目录
 define('APP_PATH','./Application/');
 
+define('DIR_SECURE_FILENAME', 'refuse.html');
+define('DIR_SECURE_CONTENT', '目录禁止');
+
 $_GET['m'] = 'Shopping';
 $_GET['c'] = 'Shopping';
 $_GET['a'] = 'shopping';
